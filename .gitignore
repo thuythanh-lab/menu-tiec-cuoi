@@ -1,0 +1,8 @@
+.openai/
+dist/
+preview.html
+build_data.py
+__pycache__/
+.env
+.env.*
+.DS_Store
