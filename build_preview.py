@@ -1,9 +1,10 @@
 from pathlib import Path
 r=Path(__file__).parent
-(r/'Shared.html').write_text('<script>\n'+(r/'Core.gs').read_text()+'\n</script>')
-s=(r/'Index.html').read_text().replace('<?!= bootJson ?>','{"preview":true}')
-for name in ['Styles','Shared','Client']:s=s.replace("<?!= include_('"+name+"'); ?>",(r/(name+'.html')).read_text())
-(r/'preview.html').write_text(s)
+s=(r/'Index.html').read_text()
+for marker,name in [('STYLES','Styles.html'),('CORE','core.js'),('CLIENT','Client.html')]:
+    content=(r/name).read_text()
+    if marker=='CORE': content='<script>\n'+content+'\n</script>'
+    s=s.replace('<!-- '+marker+' -->',content)
 (r/'index.html').write_text(s)
 (r/'dist').mkdir(exist_ok=True)
 (r/'dist/index.html').write_text(s)
